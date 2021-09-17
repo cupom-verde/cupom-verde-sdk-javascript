@@ -242,5 +242,29 @@ describe('CPV SDK', () => {
         message: 'any_message',
       }));
     });
+
+    test('should throw NotFoundError when API returns 404', async () => {
+      const postSpy = jest.fn().mockRejectedValueOnce({
+        response: {
+          status: 404,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
+        },
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const promise = sut.cancelarCupomFiscal('any_chave_cupom_fiscal');
+
+      await expect(promise).rejects.toThrow(expect.objectContaining({
+        name: 'NotFoundError',
+        message: 'any_message',
+      }));
+    });
   });
 });
