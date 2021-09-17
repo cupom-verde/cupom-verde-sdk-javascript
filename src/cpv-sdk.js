@@ -52,7 +52,12 @@ class CPVSDK {
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
-  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {}
+  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {
+    this.httpClient.post('/integracao/upload', {
+      xml: xmlCupomFiscal,
+      cpf: cpfCliente,
+    });
+  }
 
   /**
    * Muda o status de um cupom fiscal para cancelado
