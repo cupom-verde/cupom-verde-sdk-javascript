@@ -1,5 +1,5 @@
 {
-  "name": "cupom-verde-sdk-javascript",
+  "name": "cupom-verde-sdk",
   "version": "0.0.0",
   "description": "SDK do Cupom Verde em JavaScript",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/quickdata-team/cupom-verde-sdk-javascript.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Cupom Verde",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quickdata-team/cupom-verde-sdk-javascript/issues"
