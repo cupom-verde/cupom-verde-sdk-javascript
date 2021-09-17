@@ -82,7 +82,7 @@ class CPVSDK {
       throw error;
     }
 
-    throw UnexpectedError();
+    throw new UnexpectedError(axiosErrorMessage);
   }
 
   /**
