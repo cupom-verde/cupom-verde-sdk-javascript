@@ -1,4 +1,5 @@
 const { default: axios } = require('axios');
+const { UnauthorizedError } = require('./errors');
 
 class CPVSDK {
   /**
@@ -53,10 +54,16 @@ class CPVSDK {
    * É lançado caso ocorra um erro inesperado.
    */
   async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {
-    this.httpClient.post('/integracao/upload', {
-      xml: xmlCupomFiscal,
-      cpf: cpfCliente,
-    });
+    try {
+      await this.httpClient.post('/integracao/upload', {
+        xml: xmlCupomFiscal,
+        cpf: cpfCliente,
+      });
+    } catch (e) {
+      if (e?.status === 401) {
+        throw new UnauthorizedError(e?.data?.message);
+      }
+    }
   }
 
   /**
