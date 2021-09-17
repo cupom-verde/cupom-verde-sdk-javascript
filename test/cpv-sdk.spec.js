@@ -34,6 +34,22 @@ describe('CPV SDK', () => {
       });
     });
 
+    test('should initialize axios with default base url if variable CPV_API_URL does not exist', () => {
+      const sut = CPV;
+      const createSpy = jest.spyOn(axios, axios.create.name);
+      process.env.CPV_API_URL = '';
+
+      sut.init('any_api_key');
+
+      expect(createSpy).toHaveBeenCalledWith({
+        baseURL: 'https://api.cupomverde.com.br/api/v2',
+        headers: {
+          'x-api-key': 'any_api_key',
+        },
+        timeout: 5000,
+      });
+    });
+
     test('should keep the correct axios instance', () => {
       const sut = CPV;
       const fakeAxiosInstance = jest.fn();
