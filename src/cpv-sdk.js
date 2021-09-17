@@ -6,7 +6,9 @@ class CPVSDK {
    * CPV.init('my_api_key')
    * @param {string} apiKey - Sua chave de api do Cupom Verde.
    */
-  init(apiKey) {}
+  init(apiKey) {
+    this.apiKey = apiKey;
+  }
 
   /**
    * @typedef EnviarCupomFiscalResult
