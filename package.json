@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/quickdata-team/cupom-verde-sdk-javascript.git"
   },
-  "keywords": [],
+  "keywords": ["cupom", "verde", "fiscal", "sdk", "javascript"],
   "author": "Cupom Verde",
   "license": "ISC",
   "bugs": {
