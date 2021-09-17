@@ -105,5 +105,49 @@ describe('CPV SDK', () => {
         message: 'any_message',
       }));
     });
+
+    test('should throw NotFoundError when API returns 409', async () => {
+      const postSpy = jest.fn().mockRejectedValueOnce({
+        status: 409,
+        data: {
+          code: 'any_code',
+          message: 'any_message',
+        },
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const promise = sut.enviarCupomFiscal('any_xml_cupom_fiscal', 'any_cpf_cliente');
+
+      await expect(promise).rejects.toThrow(expect.objectContaining({
+        name: 'ConflictError',
+        message: 'any_message',
+      }));
+    });
+
+    test('should throw NotFoundError when API returns 422', async () => {
+      const postSpy = jest.fn().mockRejectedValueOnce({
+        status: 422,
+        data: {
+          code: 'any_code',
+          message: 'any_message',
+        },
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const promise = sut.enviarCupomFiscal('any_xml_cupom_fiscal', 'any_cpf_cliente');
+
+      await expect(promise).rejects.toThrow(expect.objectContaining({
+        name: 'ValidationError',
+        message: 'any_message',
+      }));
+    });
   });
 });

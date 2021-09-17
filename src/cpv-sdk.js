@@ -1,5 +1,7 @@
 const { default: axios } = require('axios');
-const { UnauthorizedError, NotFoundError, UnexpectedError } = require('./errors');
+const {
+  UnauthorizedError, NotFoundError, UnexpectedError, ConflictError, ValidationError,
+} = require('./errors');
 
 class CPVSDK {
   /**
@@ -70,6 +72,8 @@ class CPVSDK {
     const errorsByCode = {
       401: new UnauthorizedError(axiosErrorMessage),
       404: new NotFoundError(axiosErrorMessage),
+      409: new ConflictError(axiosErrorMessage),
+      422: new ValidationError(axiosErrorMessage),
     };
 
     const error = errorsByCode[axiosErrorStatus];
