@@ -7,7 +7,7 @@ class CPVSDK {
    * @param {string} apiKey - Sua chave de api do Cupom Verde.
    */
   init(apiKey) {
-    this.apiKey = apiKey;
+    this.apiKey = apiKey || process.env.CPV_API_KEY;
   }
 
   /**
@@ -43,7 +43,7 @@ class CPVSDK {
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
-  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {}
+  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) { }
 
   /**
    * Muda o status de um cupom fiscal para cancelado
@@ -58,7 +58,7 @@ class CPVSDK {
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
-  async cancelarCupomFiscal(chaveCupomFiscal) {}
+  async cancelarCupomFiscal(chaveCupomFiscal) { }
 }
 
 const CPV = new CPVSDK();
