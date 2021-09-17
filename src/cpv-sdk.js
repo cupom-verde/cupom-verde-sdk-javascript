@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const { UnauthorizedError } = require('./errors');
+const { UnauthorizedError, NotFoundError, UnexpectedError } = require('./errors');
 
 class CPVSDK {
   /**
@@ -59,11 +59,26 @@ class CPVSDK {
         xml: xmlCupomFiscal,
         cpf: cpfCliente,
       });
-    } catch (e) {
-      if (e?.status === 401) {
-        throw new UnauthorizedError(e?.data?.message);
-      }
+    } catch (error) {
+      this.handleAxiosError(error);
     }
+  }
+
+  handleAxiosError(axiosError) {
+    const axiosErrorStatus = axiosError?.status;
+    const axiosErrorMessage = axiosError?.data?.message;
+    const errorsByCode = {
+      401: new UnauthorizedError(axiosErrorMessage),
+      404: new NotFoundError(axiosErrorMessage),
+    };
+
+    const error = errorsByCode[axiosErrorStatus];
+
+    if (error) {
+      throw error;
+    }
+
+    throw UnexpectedError();
   }
 
   /**
