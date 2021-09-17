@@ -129,7 +129,7 @@ describe('CPV SDK', () => {
       }));
     });
 
-    test('should throw NotFoundError when API returns 409', async () => {
+    test('should throw ConflictError when API returns 409', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
         response: {
           status: 409,
@@ -153,7 +153,7 @@ describe('CPV SDK', () => {
       }));
     });
 
-    test('should throw NotFoundError when API returns 422', async () => {
+    test('should throw ValidationError when API returns 422', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
         response: {
           status: 422,
@@ -177,7 +177,7 @@ describe('CPV SDK', () => {
       }));
     });
 
-    test('should throw NotFoundError when API returns unmapped error', async () => {
+    test('should throw UnexpectedError when API returns unmapped error', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
         response: {
           status: 500,
@@ -263,6 +263,30 @@ describe('CPV SDK', () => {
 
       await expect(promise).rejects.toThrow(expect.objectContaining({
         name: 'NotFoundError',
+        message: 'any_message',
+      }));
+    });
+
+    test('should throw UnexpectedError when API returns unmapped error', async () => {
+      const postSpy = jest.fn().mockRejectedValueOnce({
+        response: {
+          status: 500,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
+        },
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const promise = sut.cancelarCupomFiscal('any_chave_cupom_fiscal');
+
+      await expect(promise).rejects.toThrow(expect.objectContaining({
+        name: 'UnexpectedError',
         message: 'any_message',
       }));
     });
