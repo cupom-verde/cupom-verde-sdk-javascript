@@ -64,10 +64,12 @@ describe('CPV SDK', () => {
 
     test('should throw UnauthorizedError when API returns 401', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
-        status: 401,
-        data: {
-          code: 'any_code',
-          message: 'any_message',
+        response: {
+          status: 401,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
         },
       });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
@@ -86,10 +88,12 @@ describe('CPV SDK', () => {
 
     test('should throw NotFoundError when API returns 404', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
-        status: 404,
-        data: {
-          code: 'any_code',
-          message: 'any_message',
+        response: {
+          status: 404,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
         },
       });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
@@ -108,10 +112,12 @@ describe('CPV SDK', () => {
 
     test('should throw NotFoundError when API returns 409', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
-        status: 409,
-        data: {
-          code: 'any_code',
-          message: 'any_message',
+        response: {
+          status: 409,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
         },
       });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
@@ -130,10 +136,12 @@ describe('CPV SDK', () => {
 
     test('should throw NotFoundError when API returns 422', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
-        status: 422,
-        data: {
-          code: 'any_code',
-          message: 'any_message',
+        response: {
+          status: 422,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
         },
       });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
@@ -152,10 +160,12 @@ describe('CPV SDK', () => {
 
     test('should throw NotFoundError when API returns unmapped error', async () => {
       const postSpy = jest.fn().mockRejectedValueOnce({
-        status: 500,
-        data: {
-          code: 'any_code',
-          message: 'any_message',
+        response: {
+          status: 500,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
         },
       });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({

@@ -67,8 +67,8 @@ class CPVSDK {
   }
 
   handleAxiosError(axiosError) {
-    const axiosErrorStatus = axiosError?.status;
-    const axiosErrorMessage = axiosError?.data?.message;
+    const axiosErrorStatus = axiosError?.response?.status;
+    const axiosErrorMessage = axiosError?.response?.data?.message;
     const errorsByCode = {
       401: new UnauthorizedError(axiosErrorMessage),
       404: new NotFoundError(axiosErrorMessage),
