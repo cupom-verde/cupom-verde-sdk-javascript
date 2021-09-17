@@ -1,3 +1,5 @@
+const { default: axios } = require('axios');
+
 class CPVSDK {
   /**
    * Configura o SDK do Cupom Verde.
@@ -8,6 +10,13 @@ class CPVSDK {
    */
   init(apiKey) {
     this.apiKey = apiKey || process.env.CPV_API_KEY;
+    this.httpClient = axios.create({
+      baseURL: process.env.CPV_API_URL,
+      headers: {
+        'x-api-key': this.apiKey,
+      },
+      timeout: 5000,
+    });
   }
 
   /**
@@ -43,7 +52,7 @@ class CPVSDK {
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
-  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) { }
+  async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {}
 
   /**
    * Muda o status de um cupom fiscal para cancelado
@@ -58,7 +67,7 @@ class CPVSDK {
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
-  async cancelarCupomFiscal(chaveCupomFiscal) { }
+  async cancelarCupomFiscal(chaveCupomFiscal) {}
 }
 
 const CPV = new CPVSDK();
