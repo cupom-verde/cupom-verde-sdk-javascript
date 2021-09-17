@@ -59,7 +59,7 @@ class CPVSDK {
     try {
       const { data } = await this.httpClient.post('/integracao/upload', {
         xml: xmlCupomFiscal,
-        cpf: cpfCliente,
+        cpf: cpfCliente.replace(/\D/g, ''),
       });
 
       return data;

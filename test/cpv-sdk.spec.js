@@ -57,11 +57,30 @@ describe('CPV SDK', () => {
       const sut = CPV;
       sut.init();
 
-      await sut.enviarCupomFiscal('any_xml_cupom_fiscal', 'any_cpf_cliente');
+      await sut.enviarCupomFiscal('any_xml_cupom_fiscal', '00000000000');
 
       expect(postSpy).toHaveBeenCalledWith('/integracao/upload', {
         xml: 'any_xml_cupom_fiscal',
-        cpf: 'any_cpf_cliente',
+        cpf: '00000000000',
+      });
+    });
+
+    test('should remove all non-numeric characters from cpf', async () => {
+      const postSpy = jest.fn().mockResolvedValueOnce({
+        status: 200,
+        data: 'any_data',
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      await sut.enviarCupomFiscal('any_xml_cupom_fiscal', '000.000.000-00');
+
+      expect(postSpy).toHaveBeenCalledWith('/integracao/upload', {
+        xml: 'any_xml_cupom_fiscal',
+        cpf: '00000000000',
       });
     });
 
