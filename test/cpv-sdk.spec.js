@@ -3,6 +3,8 @@ const { CPV } = require('../src/cpv-sdk');
 
 describe('CPV SDK', () => {
   describe('init', () => {
+    const createSpy = jest.spyOn(axios, axios.create.name);
+
     test('should initialize with correct api key', () => {
       const sut = CPV;
 
@@ -21,7 +23,6 @@ describe('CPV SDK', () => {
 
     test('should initialize axios with correct data', () => {
       const sut = CPV;
-      const createSpy = jest.spyOn(axios, axios.create.name);
 
       sut.init('any_api_key');
 
@@ -32,6 +33,16 @@ describe('CPV SDK', () => {
         },
         timeout: 5000,
       });
+    });
+
+    test('should keep the correct axios instance', () => {
+      const sut = CPV;
+      const fakeAxiosInstance = jest.fn();
+      createSpy.mockReturnValueOnce(fakeAxiosInstance);
+
+      sut.init('any_api_key');
+
+      expect(sut.httpClient).toBe(fakeAxiosInstance);
     });
   });
 });
