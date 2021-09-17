@@ -57,16 +57,18 @@ class CPVSDK {
    */
   async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {
     try {
-      await this.httpClient.post('/integracao/upload', {
+      const { data } = await this.httpClient.post('/integracao/upload', {
         xml: xmlCupomFiscal,
         cpf: cpfCliente,
       });
+
+      return data;
     } catch (error) {
-      this.handleAxiosError(error);
+      return this._handleAxiosError(error);
     }
   }
 
-  handleAxiosError(axiosError) {
+  _handleAxiosError(axiosError) {
     const axiosErrorStatus = axiosError?.response?.status;
     const axiosErrorMessage = axiosError?.response?.data?.message;
     const errorsByCode = {

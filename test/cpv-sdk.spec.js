@@ -47,7 +47,10 @@ describe('CPV SDK', () => {
 
   describe('enviarCupomFiscal', () => {
     test('should call axios with correct data', async () => {
-      const postSpy = jest.fn();
+      const postSpy = jest.fn().mockResolvedValueOnce({
+        status: 200,
+        data: 'any_data',
+      });
       jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
         post: postSpy,
       });
@@ -60,6 +63,22 @@ describe('CPV SDK', () => {
         xml: 'any_xml_cupom_fiscal',
         cpf: 'any_cpf_cliente',
       });
+    });
+
+    test('should return correct data', async () => {
+      const postSpy = jest.fn().mockResolvedValueOnce({
+        status: 200,
+        data: 'any_data',
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const result = await sut.enviarCupomFiscal('any_xml_cupom_fiscal', 'any_cpf_cliente');
+
+      expect(result).toBe('any_data');
     });
 
     test('should throw UnauthorizedError when API returns 401', async () => {
