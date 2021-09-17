@@ -201,4 +201,22 @@ describe('CPV SDK', () => {
       }));
     });
   });
+
+  describe('cancelarCupomFiscal', () => {
+    test('should call axios with correct data', async () => {
+      const postSpy = jest.fn().mockResolvedValueOnce({
+        status: 200,
+        data: 'any_data',
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      await sut.cancelarCupomFiscal('any_chave_cupom_fiscal');
+
+      expect(postSpy).toHaveBeenCalledWith('/integracao/cancelamentos/any_chave_cupom_fiscal');
+    });
+  });
 });

@@ -68,6 +68,23 @@ class CPVSDK {
     }
   }
 
+  /**
+   * Muda o status de um cupom fiscal para cancelado
+   * @example
+   * CPV.cancelarCupomFiscal('00000000000000000000000000000000000000000000')
+   * @param {string} chaveCupomFiscal - Chave do cupom fiscal
+   * @returns {Promise} Retorna uma promise.
+   * @throws {UnauthorizedError}
+   * Api key precisa ser válida.
+   * @throws {NotFoundError}
+   * A loja do cupom fiscal precisa existir no Cupom Verde.
+   * @throws {UnexpectedError}
+   * É lançado caso ocorra um erro inesperado.
+   */
+  async cancelarCupomFiscal(chaveCupomFiscal) {
+    await this.httpClient.post(`/integracao/cancelamentos/${chaveCupomFiscal}`);
+  }
+
   _handleAxiosError(axiosError) {
     const axiosErrorStatus = axiosError?.response?.status;
     const axiosErrorMessage = axiosError?.response?.data?.message;
@@ -86,21 +103,6 @@ class CPVSDK {
 
     throw new UnexpectedError(axiosErrorMessage);
   }
-
-  /**
-   * Muda o status de um cupom fiscal para cancelado
-   * @example
-   * CPV.cancelarCupomFiscal('00000000000000000000000000000000000000000000')
-   * @param {string} chaveCupomFiscal - Chave do cupom fiscal
-   * @returns {Promise} Retorna uma promise.
-   * @throws {UnauthorizedError}
-   * Api key precisa ser válida.
-   * @throws {NotFoundError}
-   * A loja do cupom fiscal precisa existir no Cupom Verde.
-   * @throws {UnexpectedError}
-   * É lançado caso ocorra um erro inesperado.
-   */
-  async cancelarCupomFiscal(chaveCupomFiscal) {}
 }
 
 const CPV = new CPVSDK();
