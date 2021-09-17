@@ -82,7 +82,11 @@ class CPVSDK {
    * É lançado caso ocorra um erro inesperado.
    */
   async cancelarCupomFiscal(chaveCupomFiscal) {
-    await this.httpClient.post(`/integracao/cancelamentos/${chaveCupomFiscal}`);
+    try {
+      await this.httpClient.post(`/integracao/cancelamentos/${chaveCupomFiscal}`);
+    } catch (error) {
+      this._handleAxiosError(error);
+    }
   }
 
   _handleAxiosError(axiosError) {

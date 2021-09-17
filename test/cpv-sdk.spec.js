@@ -218,5 +218,29 @@ describe('CPV SDK', () => {
 
       expect(postSpy).toHaveBeenCalledWith('/integracao/cancelamentos/any_chave_cupom_fiscal');
     });
+
+    test('should throw UnauthorizedError when API returns 401', async () => {
+      const postSpy = jest.fn().mockRejectedValueOnce({
+        response: {
+          status: 401,
+          data: {
+            code: 'any_code',
+            message: 'any_message',
+          },
+        },
+      });
+      jest.spyOn(axios, axios.create.name).mockReturnValueOnce({
+        post: postSpy,
+      });
+      const sut = CPV;
+      sut.init();
+
+      const promise = sut.cancelarCupomFiscal('any_chave_cupom_fiscal');
+
+      await expect(promise).rejects.toThrow(expect.objectContaining({
+        name: 'UnauthorizedError',
+        message: 'any_message',
+      }));
+    });
   });
 });
