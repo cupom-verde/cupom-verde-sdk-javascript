@@ -12,7 +12,7 @@ class CPVSDK {
    * @example
    * CPV.init('my_api_key')
    * @param {string} apiKey - Sua chave de api do Cupom Verde.
-   *  @throws {UnauthorizedError}
+   * @throws {UnauthorizedError}
    * Caso a Api Key não tenha sido encontrada nas variaveis de ambiente ou no parametro da função.
    * @throws {ValidationError}
    * Caso a Api Key não seja um UUID válido.
