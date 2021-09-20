@@ -1,5 +1,6 @@
 # Dependencies directory
 node_modules
+yarn.lock
 
 # Code coverage directory
 coverage
