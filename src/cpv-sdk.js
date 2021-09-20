@@ -1,4 +1,6 @@
 const { default: axios } = require('axios');
+const { cpf } = require('cpf-cnpj-validator');
+const { default: isUUID } = require('validator/lib/isUUID');
 const {
   UnauthorizedError, NotFoundError, UnexpectedError, ConflictError, ValidationError,
 } = require('./errors');
@@ -10,9 +12,21 @@ class CPVSDK {
    * @example
    * CPV.init('my_api_key')
    * @param {string} apiKey - Sua chave de api do Cupom Verde.
+   *  @throws {UnauthorizedError}
+   * Caso a Api Key não tenha sido encontrada nas variaveis de ambiente ou no parametro da função.
+   * @throws {ValidationError}
+   * Caso a Api Key não seja um UUID válido.
    */
   init(apiKey) {
     this.apiKey = apiKey || process.env.CPV_API_KEY;
+    if (!this.apiKey) {
+      throw new UnauthorizedError('API Key não foi informada por parâmetro ou por variavel de ambiente.');
+    }
+
+    if (!isUUID(this.apiKey)) {
+      throw new ValidationError('API Key não é válida, informe uma Api Key válida.');
+    }
+
     this.httpClient = axios.create({
       baseURL: process.env.CPV_API_URL || 'https://api.cupomverde.com.br/api/v2',
       headers: {
@@ -52,10 +66,23 @@ class CPVSDK {
    * @throws {ValidationError}
    * - O XML do cupom fiscal e CPF do cliente precisam ser válidos.
    * - O XML do cupom fiscal não pode ser maior que 1 Mb.
+   * - O XML não foi informado
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
    */
   async enviarCupomFiscal(xmlCupomFiscal, cpfCliente) {
+    if (!xmlCupomFiscal) {
+      throw new ValidationError('XML não informado.');
+    }
+
+    if (!cpfCliente) {
+      throw new ValidationError('cpfCliente não informado, informe um cpf válido.');
+    }
+
+    if (cpfCliente && !cpf.isValid(cpfCliente)) {
+      throw new ValidationError('cpfCliente inválido, informe um cpf válido.');
+    }
+
     try {
       const { data } = await this.httpClient.post('/integracao/upload', {
         xml: xmlCupomFiscal,
@@ -80,8 +107,13 @@ class CPVSDK {
    * A loja do cupom fiscal precisa existir no Cupom Verde.
    * @throws {UnexpectedError}
    * É lançado caso ocorra um erro inesperado.
+   * @throws {ValidationError}
+   * Chave não informada.
    */
   async cancelarCupomFiscal(chaveCupomFiscal) {
+    if (!chaveCupomFiscal) {
+      throw new ValidationError('Chave não informada.');
+    }
     try {
       await this.httpClient.post(`/integracao/cancelamentos/${chaveCupomFiscal}`);
     } catch (error) {
