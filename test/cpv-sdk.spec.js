@@ -52,7 +52,7 @@ describe('CPV SDK', () => {
       sut.init(token);
 
       expect(createSpy).toHaveBeenCalledWith({
-        baseURL: 'https://api.cupomverde.com.br/api/v2',
+        baseURL: 'https://api.cupomverde.com.br/api/prod/v2',
         headers: {
           'x-api-key': token,
         },

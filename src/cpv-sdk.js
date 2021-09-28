@@ -28,7 +28,7 @@ class CPVSDK {
     }
 
     this.httpClient = axios.create({
-      baseURL: process.env.CPV_API_URL || 'https://api.cupomverde.com.br/api/v2',
+      baseURL: process.env.CPV_API_URL || 'https://api.cupomverde.com.br/api/prod/v2',
       headers: {
         'x-api-key': this.apiKey,
       },
