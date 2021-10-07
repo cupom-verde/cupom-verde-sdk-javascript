@@ -49,10 +49,10 @@ class CPVSDK {
   /**
    * Envia um cupom fiscal.
    * @example
-   * CPV.enviarCupomFiscal("Q3Vwb21WZXJkZQ==", "00000000000")
+   * CPV.enviarCupomFiscal("<?xml version="1.0" encoding="UTF-8"?>", "00000000000")
    * // Para enviar um cupom anônimo basta não informar o CPF do cliente
-   * CPV.enviarCupomFiscal("Q3Vwb21WZXJkZQ==")
-   * @param {string} xmlCupomFiscal - XML do cupom fiscal codificado em Base64
+   * CPV.enviarCupomFiscal("<?xml version="1.0" encoding="UTF-8"?>")
+   * @param {string} xmlCupomFiscal - XML do cupom fiscal codificado
    * @param {string} cpfCliente - CPF do cliente do cupom fiscal.
    * Para enviar um cupom fiscal anônimo basta não informar este dado.
    * @returns {Promise<EnviarCupomFiscalResult>} Retorna uma promise que resolve
@@ -83,9 +83,11 @@ class CPVSDK {
       throw new ValidationError('cpfCliente inválido, informe um cpf válido.');
     }
 
+    const xmlCupomFiscalBase64 = Buffer.from(xmlCupomFiscal).toString('base64');
+
     try {
       const { data } = await this.httpClient.post('/integracao/upload', {
-        xml: xmlCupomFiscal,
+        xml: xmlCupomFiscalBase64,
         cpf: cpfCliente.replace(/\D/g, ''),
       });
 
