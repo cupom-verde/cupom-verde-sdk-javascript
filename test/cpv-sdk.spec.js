@@ -109,7 +109,7 @@ describe('CPV SDK', () => {
       await sut.enviarCupomFiscal('any_xml_cupom_fiscal', documento);
 
       expect(postSpy).toHaveBeenCalledWith('/integracao/upload', {
-        xml: 'any_xml_cupom_fiscal',
+        xml: Buffer.from('any_xml_cupom_fiscal').toString('base64'),
         cpf: documento,
       });
     });
@@ -129,7 +129,7 @@ describe('CPV SDK', () => {
       await sut.enviarCupomFiscal('any_xml_cupom_fiscal', documento);
 
       expect(postSpy).toHaveBeenCalledWith('/integracao/upload', {
-        xml: 'any_xml_cupom_fiscal',
+        xml: Buffer.from('any_xml_cupom_fiscal').toString('base64'),
         cpf: documento.replace(/\D/g, ''),
       });
     });
