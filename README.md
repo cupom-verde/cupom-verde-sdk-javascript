@@ -38,7 +38,9 @@ const { CPV } = require('cupom-verde-sdk');
 (async () => {
   // Caso não seja informada uma api key será utilizado
   // o valor da variável de ambiente CPV_API_KEY
-  CPV.init('minha_api_key');
+  CPV.init(
+    'a1a1a1a1-b2b2-c3c3-d4d4-e5e5e5e5e5e5e5' // Sua api key
+  );
 })();
 ```
 
@@ -50,12 +52,14 @@ const { CPV } = require('cupom-verde-sdk');
 (async () => {
   // Antes de utilizar qualquer outro método é
   // necessário inicializar o SDK
-  CPV.init('minha_api_key');
+  CPV.init(
+    'a1a1a1a1-b2b2-c3c3-d4d4-e5e5e5e5e5e5e5' // Sua api key
+  );
 
   try {
     await CPV.enviarCupomFiscal(
-      'XML do cupom fiscal codificado em Base64',
-      'CPF do cliente do cupom fiscal',
+      '<?xml version="1.0" encoding="UTF-8"?>', // XML do cupom fiscal
+      '00000000000', // CPF do cliente do cupom fiscal
     );
   } catch(error) {
     const { name, message } = error;
@@ -73,10 +77,14 @@ const { CPV } = require('cupom-verde-sdk');
 (async () => {
   // Antes de utilizar qualquer outro método é
   // necessário inicializar o SDK
-  CPV.init('minha_api_key');
+  CPV.init(
+    'a1a1a1a1-b2b2-c3c3-d4d4-e5e5e5e5e5e5e5' // Sua api key
+  );
 
   try {
-    await CPV.cancelarCupomFiscal('Chave do cupom fiscal');
+    await CPV.cancelarCupomFiscal(
+      '00000000000000000000000000000000000000000000' // Chave do cupom fiscal
+    );
   } catch(error) {
     const { name, message } = error;
 
@@ -93,10 +101,14 @@ const { CPV, UnauthorizedError } = require('cupom-verde-sdk');
 (async () => {
   // Antes de utilizar qualquer outro método é
   // necessário inicializar o SDK
-  CPV.init('minha_api_key');
+  CPV.init(
+    'a1a1a1a1-b2b2-c3c3-d4d4-e5e5e5e5e5e5e5' // Sua api key
+  );
 
   try {
-    await CPV.cancelarCupomFiscal('Chave do cupom fiscal');
+    await CPV.cancelarCupomFiscal(
+      '00000000000000000000000000000000000000000000' // Chave do cupom fiscal
+    );
   } catch(error) {
     if (error instanceof UnauthorizedError) {
       console.log('Acesso não autorizado');
