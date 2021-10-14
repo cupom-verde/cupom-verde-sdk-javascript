@@ -1,6 +1,6 @@
 {
   "name": "cupom-verde-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "SDK do Cupom Verde em JavaScript",
   "main": "index.js",
   "scripts": {
